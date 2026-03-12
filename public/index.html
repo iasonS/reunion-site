@@ -111,6 +111,31 @@
       document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
     }
 
+    // Easter egg: type "owls" anywhere
+    (function() {
+      var buf = '';
+      document.addEventListener('keydown', function(e) {
+        buf += e.key.toLowerCase();
+        if (buf.length > 10) buf = buf.slice(-10);
+        if (buf.includes('owls')) {
+          buf = '';
+          for (var i = 0; i < 30; i++) {
+            var owl = document.createElement('div');
+            owl.textContent = '\uD83E\uDD89';
+            owl.style.cssText = 'position:fixed;top:-50px;font-size:' + (24 + Math.random() * 28) + 'px;z-index:9999;pointer-events:none;left:' + Math.random() * 100 + 'vw;animation:owl-fall ' + (2 + Math.random() * 3) + 's ease-in forwards;animation-delay:' + (Math.random() * 1.5) + 's;opacity:0;';
+            document.body.appendChild(owl);
+            setTimeout(function(el) { el.remove(); }, 6000, owl);
+          }
+        }
+      });
+    })();
   </script>
+  <style>
+    @keyframes owl-fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
+    }
+  </style>
 </body>
 </html>
