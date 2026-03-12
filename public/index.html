@@ -119,7 +119,7 @@
         if (buf.length > 10) buf = buf.slice(-10);
         if (buf.includes('owls')) {
           buf = '';
-          for (var i = 0; i < 30; i++) {
+          for (var i = 0; i < 60; i++) {
             var owl = document.createElement('div');
             owl.textContent = '\uD83E\uDD89';
             owl.style.cssText = 'position:fixed;top:-50px;font-size:' + (24 + Math.random() * 28) + 'px;z-index:9999;pointer-events:none;left:' + Math.random() * 100 + 'vw;animation:owl-fall ' + (2 + Math.random() * 3) + 's ease-in forwards;animation-delay:' + (Math.random() * 1.5) + 's;opacity:0;';
