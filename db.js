@@ -31,6 +31,11 @@ module.exports = {
   all() {
     return db.prepare('SELECT * FROM rsvps ORDER BY created_at DESC').all();
   },
+  attendees() {
+    return db.prepare(
+      "SELECT name, email FROM rsvps WHERE attending IN ('yes', 'maybe')"
+    ).all();
+  },
   counts() {
     return db.prepare(`
       SELECT

@@ -2,6 +2,7 @@ const express = require('express');
 const basicAuth = require('basic-auth');
 const nodemailer = require('nodemailer');
 const db = require('./db');
+const { sendReminders, scheduleReminders } = require('./reminders');
 const path = require('path');
 
 const app = express();
@@ -91,6 +92,13 @@ app.post('/contact', async (req, res) => {
   }
 });
 
+// Admin: send reminder manually
+app.post('/admin/reminder', requireAuth, async (req, res) => {
+  const timeframe = req.body.timeframe || 'soon';
+  const result = await sendReminders(mailer, timeframe);
+  res.json(result);
+});
+
 // Admin view
 app.get('/admin', requireAuth, (req, res) => {
   const rsvps = db.all();
@@ -174,4 +182,15 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong.');
 });
 
-app.listen(PORT, () => console.log(`Reunion site running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Reunion site running on port ${PORT}`);
+  scheduleReminders(mailer);
+
+  // TEST: send a test reminder in 1 minute
+  if (process.env.TEST_REMINDER === '1') {
+    console.log('[reminders] TEST MODE: sending test reminder in 60 seconds...');
+    setTimeout(() => {
+      sendReminders(mailer, 'a test — ignore this');
+    }, 60000);
+  }
+});
