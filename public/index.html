@@ -122,19 +122,21 @@
   </div>
 
   <section class="privacy-section">
-    <h3>Your Data &amp; Privacy</h3>
-    <p>
-      By submitting the RSVP or contact form, you agree to the following: your name, email address,
-      attendance status, and any notes you provide are stored in a private database hosted on a personal
-      server located in the EU. This data is used solely for organising the ACS Athens Class of 2016
-      reunion &mdash; specifically to track attendance, send event updates, and respond to your messages.
-    </p>
-    <p>
-      Your information is never shared with third parties, sold, or used for marketing purposes.
-      Only the event organiser has access to the data. You may request deletion of your data at any
-      time by reaching out through the contact form above. By submitting, you consent to this use of
-      your information.
-    </p>
+    <button class="privacy-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Your Data &amp; Privacy</button>
+    <div class="privacy-content">
+      <p>
+        By submitting the RSVP or contact form, you agree to the following: your name, email address,
+        attendance status, and any notes you provide are stored in a private database hosted on a personal
+        server located in the EU. This data is used solely for organising the ACS Athens Class of 2016
+        reunion &mdash; specifically to track attendance, send event updates, and respond to your messages.
+      </p>
+      <p>
+        Your information is never shared with third parties, sold, or used for marketing purposes.
+        Only the event organiser has access to the data. You may request deletion of your data at any
+        time by reaching out through the contact form above. By submitting, you consent to this use of
+        your information.
+      </p>
+    </div>
   </section>
 
   <footer>
