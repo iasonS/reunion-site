@@ -95,9 +95,12 @@
     </div>
   </section>
 
-  <section class="privacy-section">
-    <button class="privacy-toggle" onclick="this.nextElementSibling.classList.toggle('open')">Your Data &amp; Privacy</button>
-    <div class="privacy-content">
+  <footer>
+    <p>ACS Athens &middot; Class of 2016 &middot; <a href="/contact.html">Contact</a></p>
+    <p class="footer-privacy">
+      <a href="#" onclick="document.getElementById('privacy-text').classList.toggle('open');return false">Your Data &amp; Privacy</a>
+    </p>
+    <div id="privacy-text" class="privacy-text">
       <p>
         By submitting the RSVP or contact form, you agree to the following: your name, email address,
         attendance status, and any notes you provide are stored in a private database hosted on a personal
@@ -111,10 +114,6 @@
         your information.
       </p>
     </div>
-  </section>
-
-  <footer>
-    <p>ACS Athens &middot; Class of 2016 &middot; <a href="/contact.html">Contact</a></p>
   </footer>
 
   <script>
