@@ -280,7 +280,7 @@ body {
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .btn-submit:hover { background: #333; }
