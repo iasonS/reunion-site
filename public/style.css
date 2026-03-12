@@ -90,24 +90,24 @@ body {
 .event-details {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   gap: 0;
+  flex-wrap: nowrap;
 }
 
 .detail {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0 2rem;
-  flex: 1 1 0;
-  min-width: 0;
+  padding: 0 1.5rem;
+  white-space: nowrap;
 }
 
 .detail-sep {
   width: 1px;
   height: 36px;
   background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
 }
 
 .detail-label {
