@@ -1,0 +1,15 @@
+{
+  "name": "reunion-site",
+  "version": "1.0.0",
+  "description": "ACS Athens Class of 2016 - 10 Year Reunion Invitation & RSVP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "express": "^4.18.2",
+    "basic-auth": "^2.0.1",
+    "nodemailer": "^6.9.9"
+  }
+}
