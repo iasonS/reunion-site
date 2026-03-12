@@ -41,6 +41,16 @@ body {
 
 .hero-inner { position: relative; max-width: 640px; margin: 0 auto; }
 
+.hero--small { padding: 3.5rem 2rem 3rem; }
+.hero--small h1 { font-size: clamp(2rem, 6vw, 3rem); margin-bottom: 0.5rem; }
+
+.eyebrow-link {
+  color: var(--gold-light);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.eyebrow-link:hover { opacity: 0.7; }
+
 .eyebrow {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
@@ -285,52 +295,6 @@ footer {
 
 footer a { color: var(--muted); text-decoration: none; }
 footer a:hover { color: var(--gold); }
-
-/* CONTACT MODAL */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-}
-
-.modal {
-  background: var(--bg);
-  border-radius: var(--radius);
-  padding: 2.5rem;
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem;
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  color: var(--dark);
-}
-
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1.25rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: var(--muted);
-  cursor: pointer;
-  line-height: 1;
-}
-
-.modal-close:hover { color: var(--dark); }
 
 /* PRIVACY DISCLAIMER */
 .privacy-section {
