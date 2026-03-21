@@ -46,12 +46,30 @@ function requireAuth(req, res, next) {
 // Health check
 app.get('/health', (req, res) => res.json({ ok: true }));
 
+// Spam detection helpers
+const URL_PATTERN = /https?:\/\/|www\./i;
+
+function isSpam(body) {
+  // Honeypot: if the hidden "website" field is filled, it's a bot
+  if (body.website) return 'honeypot';
+  // URL in notes field: legit classmates won't post links
+  if (body.notes && URL_PATTERN.test(body.notes)) return 'url_in_notes';
+  return false;
+}
+
 // RSVP submission
 app.post('/rsvp', (req, res) => {
   const { name, email, attending, notes } = req.body;
 
   if (!name || !email || !attending || !['yes', 'no', 'maybe'].includes(attending)) {
     return res.status(400).json({ error: 'Invalid submission' });
+  }
+
+  const spamReason = isSpam(req.body);
+  if (spamReason) {
+    console.log(`[spam] Blocked RSVP: reason=${spamReason}, name=${name}, email=${email}`);
+    // Return success to not tip off the bot
+    return res.redirect('/?rsvp=done');
   }
 
   try {
@@ -70,6 +88,12 @@ app.post('/contact', async (req, res) => {
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  const spamReason = isSpam(req.body);
+  if (spamReason) {
+    console.log(`[spam] Blocked contact: reason=${spamReason}, name=${name}, email=${email}`);
+    return res.json({ ok: true });
   }
 
   if (!mailer) {
@@ -182,15 +206,19 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong.');
 });
 
-app.listen(PORT, () => {
-  console.log(`Reunion site running on port ${PORT}`);
-  scheduleReminders(mailer);
+// Export for testing; start server only when run directly
+module.exports = { app, isSpam };
 
-  // TEST: send a test reminder in 1 minute
-  if (process.env.TEST_REMINDER === '1') {
-    console.log('[reminders] TEST MODE: sending test reminder in 60 seconds...');
-    setTimeout(() => {
-      sendReminders(mailer, 'a test — ignore this');
-    }, 60000);
-  }
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Reunion site running on port ${PORT}`);
+    scheduleReminders(mailer);
+
+    if (process.env.TEST_REMINDER === '1') {
+      console.log('[reminders] TEST MODE: sending test reminder in 60 seconds...');
+      setTimeout(() => {
+        sendReminders(mailer, 'a test — ignore this');
+      }, 60000);
+    }
+  });
+}
