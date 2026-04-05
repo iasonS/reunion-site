@@ -126,6 +126,17 @@ body {
   font-weight: 300;
 }
 
+.venue-link {
+  color: #20d9d9;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.venue-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* MESSAGE */
 .message-section {
   padding: 4rem 2rem;
