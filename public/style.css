@@ -127,14 +127,13 @@ body {
 }
 
 .venue-link {
-  color: #00ffff !important;
-  text-decoration: none;
+  color: #6db3f2;
+  text-decoration: underline;
   transition: opacity 0.2s;
 }
 
 .venue-link:hover {
   opacity: 0.8;
-  text-decoration: underline;
 }
 
 /* MESSAGE */
