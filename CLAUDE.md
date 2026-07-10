@@ -29,7 +29,7 @@ reunion-site/
 
 - **Date**: 24th July 2026
 - **Time**: 9:00 PM — 12:00 AM
-- **Venue**: Cocomat Hotel Rooftop, Kolonaki, Athens
+- **Venue**: Meropion Rooftop, Dionysiou Areopagitou 25, Athens
 - **RSVP deadline**: June 1st, 2026
 
 ## Routes
