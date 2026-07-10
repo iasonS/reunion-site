@@ -31,7 +31,7 @@ GET /organizers/:token
 
 ## Token
 
-- Operator-generated random string (e.g. `openssl rand -hex 8`), set as
+- Operator-generated random string, 32 chars (`openssl rand -hex 16`), set as
   `ORGANIZER_TOKEN` in is-infra `.env`.
 - If the link leaks, rotate the env var and redeploy; old links die instantly.
 - If `ORGANIZER_TOKEN` is unset, the feature is off (all requests 404).
