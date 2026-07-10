@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const basicAuth = require('basic-auth');
 const nodemailer = require('nodemailer');
 const db = require('./db');
@@ -172,6 +173,71 @@ app.get('/admin', requireAuth, (req, res) => {
   <table>
     <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Attending</th><th>Notes</th></tr></thead>
     <tbody>${rows || '<tr><td colspan="6" style="text-align:center;color:#999">No RSVPs yet</td></tr>'}</tbody>
+  </table>
+</body>
+</html>`);
+});
+
+// Organizer view: read-only, no emails, behind a secret capability URL.
+// Wrong/missing token (or unset ORGANIZER_TOKEN) → 404 so the route is
+// indistinguishable from a nonexistent page.
+function tokenMatches(candidate) {
+  const expected = process.env.ORGANIZER_TOKEN;
+  if (!expected || !candidate) return false;
+  const hash = s => crypto.createHash('sha256').update(s).digest();
+  return crypto.timingSafeEqual(hash(candidate), hash(expected));
+}
+
+app.get('/organizers/:token', (req, res, next) => {
+  if (!tokenMatches(req.params.token)) return next(); // falls through to 404
+
+  const rsvps = db.all();
+  const counts = db.counts();
+
+  const rows = rsvps.map(r => `
+    <tr>
+      <td>${r.created_at}</td>
+      <td>${esc(r.name)}</td>
+      <td class="status-${r.attending}">${r.attending}</td>
+      <td>${esc(r.notes || '—')}</td>
+    </tr>
+  `).join('');
+
+  res.setHeader('X-Robots-Tag', 'noindex');
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSVPs — Organizers</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; padding: 2rem; background: #f9f9f9; color: #222; }
+    h1 { margin-bottom: 1rem; font-size: 1.5rem; }
+    .stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .stat { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem 1.5rem; text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 700; }
+    .stat-label { font-size: 0.8rem; color: #777; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: 0.875rem; }
+    th { background: #f5f5f5; font-weight: 600; color: #555; }
+    .status-yes { color: #2d7d46; font-weight: 600; }
+    .status-no { color: #c0392b; font-weight: 600; }
+    .status-maybe { color: #d68910; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>RSVPs — ACS Athens Class of 2016</h1>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">${counts.total}</div><div class="stat-label">Total</div></div>
+    <div class="stat"><div class="stat-num">${counts.yes}</div><div class="stat-label">Attending</div></div>
+    <div class="stat"><div class="stat-num">${counts.maybe}</div><div class="stat-label">Maybe</div></div>
+    <div class="stat"><div class="stat-num">${counts.no}</div><div class="stat-label">Not attending</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Date</th><th>Name</th><th>Attending</th><th>Notes</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="4" style="text-align:center;color:#999">No RSVPs yet</td></tr>'}</tbody>
   </table>
 </body>
 </html>`);

@@ -113,4 +113,9 @@ describe(`Smoke tests against ${SITE_URL}`, () => {
     const res = await get('/admin');
     assert.strictEqual(res.status, 401);
   });
+
+  it('GET /organizers with a wrong token is a 404', async () => {
+    const res = await get('/organizers/not-the-real-token-000000000000');
+    assert.strictEqual(res.status, 404);
+  });
 });
