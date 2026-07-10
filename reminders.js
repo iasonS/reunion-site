@@ -3,7 +3,7 @@ const db = require('./db');
 
 const EVENT_DATE = '24th July 2026';
 const EVENT_TIME = '9:00 PM — 12:00 AM';
-const EVENT_VENUE = 'Meropion Rooftop, Dionysiou Areopagitou 25';
+const EVENT_VENUE = 'Meropion Rooftop';
 
 function reminderHtml(name, timeframe) {
   return `
