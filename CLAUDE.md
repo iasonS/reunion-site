@@ -44,6 +44,7 @@ reunion-site/
 | GET | /admin | Basic | Admin dashboard: RSVP table + stats |
 | GET | /admin/export | Basic | CSV download of all RSVPs |
 | POST | /admin/reminder | Basic | Manual reminder trigger (body: {"timeframe": "..."}) |
+| GET | /organizers/:token | Secret URL | Read-only RSVP view for co-organizers: stats + name/attending/notes table. No emails, no export. Token checked (timing-safe) against ORGANIZER_TOKEN; mismatch or unset var → 404. Sets noindex. |
 
 ## Environment Variables
 
@@ -57,6 +58,7 @@ reunion-site/
 | SMTP_PASS | Gmail app password |
 | ALERT_EMAIL | Recipient for contact form + error alerts |
 | TEST_REMINDER | Set to "1" to send test reminder 60s after startup |
+| ORGANIZER_TOKEN | 32-char secret (openssl rand -hex 16) for the /organizers/:token view; unset = feature off |
 
 ## Email Reminders
 

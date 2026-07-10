@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test server.test.js"
+    "test": "node --test server.test.js",
+    "test:unit": "node --test organizers.test.js"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",
